@@ -20,6 +20,8 @@ class ImagesListViewController: UIViewController {
           tableView.rowHeight = 200
           tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
       }
+    
+    
   }
 
   extension ImagesListViewController: UITableViewDataSource {
@@ -53,9 +55,9 @@ class ImagesListViewController: UIViewController {
           cell.cellDate?.text = dateFormatter.string(from: Date())
           
           if indexPath.row % 2 == 0 {
-              cell.likeButton.setImage(UIImage(named: "Like active"), for: .selected)
+              cell.likeButton.setImage(UIImage(named: "LikeActive"), for: .selected)
           } else {
-              cell.likeButton.setImage(UIImage(named: "Like no active"), for: .normal)
+              cell.likeButton.setImage(UIImage(named: "LikeNoActive"), for: .normal)
              
           }
       }
