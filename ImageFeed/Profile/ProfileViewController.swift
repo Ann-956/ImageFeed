@@ -4,7 +4,6 @@ final class ProfileViewController: UIViewController {
     
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 35
         imageView.contentMode = .scaleAspectFill
         return imageView
@@ -12,7 +11,6 @@ final class ProfileViewController: UIViewController {
     
     private let exitButton: UIButton = {
         let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(named: "Exit"), for: .normal)
         button.tintColor = .ypRed
         return button
@@ -20,7 +18,6 @@ final class ProfileViewController: UIViewController {
     
     private let userNameLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Екатерина Новикова"
         label.textColor = .ypWhite
         label.font = UIFont.boldSystemFont(ofSize: 23)
@@ -29,7 +26,6 @@ final class ProfileViewController: UIViewController {
     
     private let userEmailLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "@ekaterina_nov"
         label.textColor = .ypGray
         label.font = UIFont.systemFont(ofSize: 13)
@@ -38,7 +34,6 @@ final class ProfileViewController: UIViewController {
     
     private let userDescriptionLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Hello, world!"
         label.textColor = .ypWhite
         label.font = UIFont.systemFont(ofSize: 13)
@@ -47,7 +42,6 @@ final class ProfileViewController: UIViewController {
     
     private let stackViewImage: UIStackView = {
         let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.distribution = .equalSpacing
         return stackView
@@ -55,7 +49,6 @@ final class ProfileViewController: UIViewController {
     
     private let stackViewInfo: UIStackView = {
         let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.spacing = 8
         return stackView
@@ -70,16 +63,20 @@ final class ProfileViewController: UIViewController {
     private func setupView() {
         view.backgroundColor = .ypBlack
         
-        view.addSubview(stackViewImage)
-        view.addSubview(stackViewInfo)
+        let views = [avatarImageView, exitButton, userNameLabel, userEmailLabel, userDescriptionLabel, stackViewImage, stackViewInfo]
+        views.forEach{
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
         
-        stackViewImage.addArrangedSubview(avatarImageView)
-        stackViewImage.addArrangedSubview(exitButton)
-        
-        stackViewInfo.addArrangedSubview(userNameLabel)
-        stackViewInfo.addArrangedSubview(userEmailLabel)
-        stackViewInfo.addArrangedSubview(userDescriptionLabel)
-        
+        [avatarImageView, exitButton].forEach{
+            stackViewImage.addArrangedSubview($0)
+        }
+        [userNameLabel, userEmailLabel, userDescriptionLabel].forEach{
+            stackViewInfo.addArrangedSubview($0)
+        }
+        [stackViewImage, stackViewInfo].forEach{
+            view.addSubview($0)
+        }
         
         avatarImageView.image = UIImage(named: "Avatar")
     }

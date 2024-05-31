@@ -16,8 +16,7 @@ final class ImagesListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tableView.rowHeight = 200
+    
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     }
     
@@ -37,8 +36,6 @@ final class ImagesListViewController: UIViewController {
             super.prepare(for: segue, sender: sender)
         }
     }
-    
-    
 }
 
 extension ImagesListViewController: UITableViewDataSource {
@@ -59,24 +56,13 @@ extension ImagesListViewController: UITableViewDataSource {
     }
     
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-        guard indexPath.row < photosName.count else {
-            return
-        }
-        
-        let imageName = photosName[indexPath.row]
-        if let image = UIImage(named: imageName) {
-            cell.cellImage?.image = image
-        }
-        print(imageName)
-        
+        guard let image = UIImage(named: photosName[indexPath.row]) else { return }
+        cell.cellImage.image = image
         cell.cellDate?.text = dateFormatter.string(from: Date())
-        
-        if indexPath.row % 2 == 0 {
-            cell.likeButton.setImage(UIImage(named: "LikeActive"), for: .selected)
-        } else {
-            cell.likeButton.setImage(UIImage(named: "LikeNoActive"), for: .normal)
-            
-        }
+
+        let isLiked = indexPath.row % 2 == 0
+        let likeImage = isLiked ? UIImage(named: "LikeActive") : UIImage(named: "LikeNoActive")
+        cell.likeButton.setImage(likeImage, for: .normal)
     }
 }
 
