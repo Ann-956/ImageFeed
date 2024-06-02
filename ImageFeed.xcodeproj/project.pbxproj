@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A1387842BF8E31300EFB64D /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1387832BF8E31300EFB64D /* SingleImageViewController.swift */; };
 		0A3615EA2BF0BE060028C8C2 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3615E92BF0BE060028C8C2 /* ImagesListCell.swift */; };
 		0A3615EE2BF77ACB0028C8C2 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3615ED2BF77ACB0028C8C2 /* ProfileViewController.swift */; };
 		0A3F82F32BEA210300D0B648 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3F82F22BEA210300D0B648 /* AppDelegate.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A1387832BF8E31300EFB64D /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 		0A3615E92BF0BE060028C8C2 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		0A3615ED2BF77ACB0028C8C2 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		0A3F82EF2BEA210300D0B648 /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -41,6 +43,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A1387852BF8E32800EFB64D /* SingleImage */ = {
+			isa = PBXGroup;
+			children = (
+				0A1387832BF8E31300EFB64D /* SingleImageViewController.swift */,
+			);
+			path = SingleImage;
+			sourceTree = "<group>";
+		};
 		0A3615BF2BF0ADB20028C8C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -88,8 +98,9 @@
 			children = (
 				0A3F82F22BEA210300D0B648 /* AppDelegate.swift */,
 				0A3F82F42BEA210300D0B648 /* SceneDelegate.swift */,
-				0A3615EF2BF7C2950028C8C2 /* Profile */,
 				0A3615EC2BF0C1410028C8C2 /* ImagesList */,
+				0A3615EF2BF7C2950028C8C2 /* Profile */,
+				0A1387852BF8E32800EFB64D /* SingleImage */,
 				0A3615BF2BF0ADB20028C8C2 /* Resources */,
 				0A3F82F82BEA210300D0B648 /* Main.storyboard */,
 				0A3F83002BEA210700D0B648 /* Info.plist */,
@@ -172,6 +183,7 @@
 				0A3615EA2BF0BE060028C8C2 /* ImagesListCell.swift in Sources */,
 				0A3615EE2BF77ACB0028C8C2 /* ProfileViewController.swift in Sources */,
 				0A3F82F32BEA210300D0B648 /* AppDelegate.swift in Sources */,
+				0A1387842BF8E31300EFB64D /* SingleImageViewController.swift in Sources */,
 				0A3F82F52BEA210300D0B648 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -330,7 +342,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -338,7 +350,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ru.yandex.practicum.ImageFeed;
+				PRODUCT_BUNDLE_IDENTIFIER = ann.ImageFeed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -359,7 +371,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -367,7 +379,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ru.yandex.practicum.ImageFeed;
+				PRODUCT_BUNDLE_IDENTIFIER = ann.ImageFeed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
