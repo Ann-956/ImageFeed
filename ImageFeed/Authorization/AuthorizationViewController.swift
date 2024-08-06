@@ -8,7 +8,7 @@ final class AuthorizationViewController: UIViewController {
     
     weak var delegate: AuthorizationViewControllerDelegate?
     private let ShowWebViewSegueIdentifier = "ShowWebView"
-    private let oauth2Service = OAuth2Service()
+    private let oauth2Service = OAuth2Service.shared
     
     private func configureBackButton() {
         navigationController?.navigationBar.backIndicatorImage = UIImage(named: "NavBackButton")
@@ -36,13 +36,14 @@ final class AuthorizationViewController: UIViewController {
 
 extension AuthorizationViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        vc.dismiss(animated: true)
-
         oauth2Service.fetchOAuthToken(with: code) { result in
             switch result {
             case .success(let token):
+                print("Token received: \(token)")
                 OAuth2TokenStorage().token = token
-                self.delegate?.didAuthenticate(self)
+                vc.dismiss(animated: true) {
+                    self.delegate?.didAuthenticate(self)
+                }
             case .failure(let error):
                 print("Failed to fetch token: \(error)")
             }

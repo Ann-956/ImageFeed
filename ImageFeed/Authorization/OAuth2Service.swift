@@ -1,7 +1,9 @@
 import Foundation
 
 final class OAuth2Service {
+    static let shared = OAuth2Service()
     private let tokenStorage = OAuth2TokenStorage()
+    private init() {}
     
     func makeOAuthTokenRequest(code: String) -> URLRequest? {
         guard
@@ -15,7 +17,9 @@ final class OAuth2Service {
                 + "&grant_type=authorization_code",
                 relativeTo: baseURL
             )
-        else { return nil }
+        else {
+            print("Failed to create URL for OAuth token request")
+            return nil }
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"

@@ -4,7 +4,8 @@ final class SplashViewController: UIViewController {
     
     private let storage = OAuth2TokenStorage()
     private let showAuthenticationScreenSegueIdentifier = "ShowAuthorizationViewController"
-    private let oauth2Service = OAuth2Service()
+    private let oauth2Service = OAuth2Service.shared
+    private var didSwitchToTabBarController = false
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -17,14 +18,16 @@ final class SplashViewController: UIViewController {
     }
     
     private func switchToTabBarController() {
-        guard let window = UIApplication.shared.windows.first else {
-            fatalError("Invalid Configuration")
+            guard !didSwitchToTabBarController else { return }
+            didSwitchToTabBarController = true
+            guard let window = UIApplication.shared.windows.first else {
+                fatalError("Invalid Configuration")
+            }
+            let tabBarController = UIStoryboard(name: "Main", bundle: .main)
+                .instantiateViewController(withIdentifier: "TabBarViewController")
+            window.rootViewController = tabBarController
+            window.makeKeyAndVisible()
         }
-        let tabBarController = UIStoryboard(name: "Main", bundle: .main)
-            .instantiateViewController(withIdentifier: "TabBarViewController")
-        window.rootViewController = tabBarController
-        window.makeKeyAndVisible()
-    }
 }
 
 extension SplashViewController {

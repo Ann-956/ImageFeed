@@ -327,8 +327,21 @@
                     <view key="view" contentMode="scaleToFill" id="npd-Yx-gBy">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Vector" translatesAutoresizingMaskIntoConstraints="NO" id="7YM-tr-hNQ">
+                                <rect key="frame" x="159" y="399.66666666666669" width="75" height="78"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="78" id="COc-Eu-09T"/>
+                                    <constraint firstAttribute="width" constant="75" id="bXd-j9-pBb"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="C1K-MX-cmW"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="YP Black"/>
+                        <constraints>
+                            <constraint firstItem="7YM-tr-hNQ" firstAttribute="centerY" secondItem="C1K-MX-cmW" secondAttribute="centerY" id="DHP-7h-edb"/>
+                            <constraint firstItem="7YM-tr-hNQ" firstAttribute="centerX" secondItem="C1K-MX-cmW" secondAttribute="centerX" id="zwf-gD-yyF"/>
+                        </constraints>
                     </view>
                     <connections>
                         <segue destination="ZeL-h8-OzI" kind="presentation" identifier="ShowAuthorizationViewController" modalPresentationStyle="fullScreen" id="027-22-qVM"/>
@@ -347,6 +360,7 @@
         <image name="Sharing" width="51" height="51"/>
         <image name="TabEditorialActive" width="30" height="30"/>
         <image name="TabProfileActive" width="30" height="30"/>
+        <image name="Vector" width="75" height="78"/>
         <namedColor name="YP Black">
             <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
