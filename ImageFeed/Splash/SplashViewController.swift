@@ -74,13 +74,13 @@ final class SplashViewController: UIViewController {
     private func showAuthenticationScreen() {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         
-        guard let authViewController = storyboard.instantiateViewController(withIdentifier: "AuthorizationViewController") as? AuthorizationViewController else {
-            fatalError("AuthorizationViewController not found in Main storyboard")
+        guard let authViewController = storyboard.instantiateViewController(withIdentifier: "AuthorizationViewController") as? AuthorizationViewController,
+              let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as? UINavigationController
+        else {
+            fatalError("AuthorizationViewController or NavigationController not found in Main storyboard")
         }
-        
         authViewController.delegate = self
-        let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
-        navigationController.setViewControllers([authViewController], animated: false)
+        navigationController.viewControllers = [authViewController]
         navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true, completion: nil)
     }

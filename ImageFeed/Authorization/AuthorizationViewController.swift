@@ -39,17 +39,19 @@ extension AuthorizationViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         UIBlockingProgressHUD.show()
         
-        oauth2Service.fetchOAuthToken(with: code) { result in
+        oauth2Service.fetchOAuthToken(with: code) { [weak self] result in
             UIBlockingProgressHUD.dismiss()
             
+            guard let self = self else { return }
+            
             switch result {
-            case .success(let token):
+            case.success(let token):
                 print("Token received: \(token)")
                 OAuth2TokenStorage().token = token
                 vc.dismiss(animated: true) {
                     self.delegate?.didAuthenticate(self)
                 }
-            case .failure:
+            case.failure:
                 self.showErrorAlert()
             }
         }
