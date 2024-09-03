@@ -1,11 +1,16 @@
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
     
+    private let profileService = ProfileService.shared
+    private var profileImageServiceObserver: NSObjectProtocol?
+
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.layer.cornerRadius = 35
         imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
@@ -13,6 +18,7 @@ final class ProfileViewController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(named: "Exit"), for: .normal)
         button.tintColor = .ypRed
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -21,6 +27,7 @@ final class ProfileViewController: UIViewController {
         label.text = "Екатерина Новикова"
         label.textColor = .ypWhite
         label.font = UIFont.boldSystemFont(ofSize: 23)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -29,6 +36,7 @@ final class ProfileViewController: UIViewController {
         label.text = "@ekaterina_nov"
         label.textColor = .ypGray
         label.font = UIFont.systemFont(ofSize: 13)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -37,13 +45,16 @@ final class ProfileViewController: UIViewController {
         label.text = "Hello, world!"
         label.textColor = .ypWhite
         label.font = UIFont.systemFont(ofSize: 13)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let stackViewImage: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
+        stackView.alignment = .center
         stackView.distribution = .equalSpacing
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
@@ -51,6 +62,7 @@ final class ProfileViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 8
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
@@ -58,15 +70,61 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupConstraints()
+        updateUI()
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
+
+        updateAvatar()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        setupAvatarImageView()
+    }
+    
+    private func updateAvatar() {
+        guard
+            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let url = URL(string: profileImageURL)
+        else {
+            print("Invalid avatar URL")
+            return
+        }
+        
+        let options: KingfisherOptionsInfo = [
+                .cacheOriginalImage,
+                .transition(.fade(0.2))
+            ]
+        
+        avatarImageView.kf.setImage(
+            with: url,
+            placeholder: UIImage(named: "Placeholder"),
+            options: options,
+            completionHandler: { result in
+                switch result {
+                case .success(let value):
+                    print("Image successfully loaded and cached: \(value.source.url?.absoluteString ?? "")")
+                case .failure(let error):
+                    print("Error loading image: \(error.localizedDescription)")
+                }
+            }
+        )
+    }
+    
+    private func setupAvatarImageView() {
+        let width = avatarImageView.bounds.size.width
+            avatarImageView.layer.cornerRadius = width / 2
     }
     
     private func setupView() {
         view.backgroundColor = .ypBlack
-        
-        let views = [avatarImageView, exitButton, userNameLabel, userEmailLabel, userDescriptionLabel, stackViewImage, stackViewInfo]
-        views.forEach{
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
         
         [avatarImageView, exitButton].forEach{
             stackViewImage.addArrangedSubview($0)
@@ -95,7 +153,15 @@ final class ProfileViewController: UIViewController {
             
             stackViewInfo.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             stackViewInfo.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            stackViewInfo.topAnchor.constraint(equalTo: stackViewImage.bottomAnchor, constant: 16),
+            stackViewInfo.topAnchor.constraint(equalTo: stackViewImage.bottomAnchor, constant: 8),
         ])
+    }
+    
+    private func updateUI() {
+        guard let profile = profileService.profileInfo else { return }
+        
+        userNameLabel.text = profile.name
+        userEmailLabel.text = profile.loginName
+        userDescriptionLabel.text = profile.bio
     }
 }

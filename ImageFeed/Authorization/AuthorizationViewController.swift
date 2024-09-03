@@ -9,6 +9,7 @@ final class AuthorizationViewController: UIViewController {
     weak var delegate: AuthorizationViewControllerDelegate?
     private let ShowWebViewSegueIdentifier = "ShowWebView"
     private let oauth2Service = OAuth2Service.shared
+
     
     private func configureBackButton() {
         navigationController?.navigationBar.backIndicatorImage = UIImage(named: "NavBackButton")
@@ -36,21 +37,38 @@ final class AuthorizationViewController: UIViewController {
 
 extension AuthorizationViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        oauth2Service.fetchOAuthToken(with: code) { result in
+        UIBlockingProgressHUD.show()
+        
+        oauth2Service.fetchOAuthToken(with: code) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            
+            guard let self = self else { return }
+            
             switch result {
-            case .success(let token):
+            case.success(let token):
                 print("Token received: \(token)")
                 OAuth2TokenStorage().token = token
                 vc.dismiss(animated: true) {
                     self.delegate?.didAuthenticate(self)
                 }
-            case .failure(let error):
-                print("Failed to fetch token: \(error)")
+            case.failure:
+                self.showErrorAlert()
             }
         }
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         dismiss(animated: true)
+    }
+    
+    private func showErrorAlert() {
+        let alert = UIAlertController(
+            title: "Что-то пошло не так(",
+            message: "Не удалось войти в систему",
+            preferredStyle: .alert
+        )
+        let action = UIAlertAction(title: "Ок", style: .default, handler: nil)
+        alert.addAction(action)
+        present(alert, animated: true)
     }
 }
