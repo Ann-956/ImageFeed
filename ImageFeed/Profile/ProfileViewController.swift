@@ -3,9 +3,8 @@ import Kingfisher
 
 final class ProfileViewController: UIViewController {
     
-    private let profileService = ProfileService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
-
+    
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -80,8 +79,10 @@ final class ProfileViewController: UIViewController {
                 guard let self = self else { return }
                 self.updateAvatar()
             }
-
+        
         updateAvatar()
+        
+        exitButton.addTarget(self, action: #selector(didTapExitButton), for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
@@ -99,9 +100,9 @@ final class ProfileViewController: UIViewController {
         }
         
         let options: KingfisherOptionsInfo = [
-                .cacheOriginalImage,
-                .transition(.fade(0.2))
-            ]
+            .cacheOriginalImage,
+            .transition(.fade(0.2))
+        ]
         
         avatarImageView.kf.setImage(
             with: url,
@@ -118,9 +119,34 @@ final class ProfileViewController: UIViewController {
         )
     }
     
+    @objc private func didTapExitButton() {
+        showAlertExit()
+    }
+    
+    private func showAlertExit() {
+        let alertController = UIAlertController(
+            title: "Пока, пока!",
+            message: "Вы уверены, что хотите выйти?",
+            preferredStyle: .alert
+        )
+        
+        let yesAction = UIAlertAction(title: "Да", style: .default) { _ in
+            ProfileLogoutService.shared.logout()
+        }
+        
+        let noAction = UIAlertAction(title: "Нет", style: .cancel, handler: nil)
+        
+       
+        alertController.addAction(yesAction)
+        
+        alertController.addAction(noAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
     private func setupAvatarImageView() {
         let width = avatarImageView.bounds.size.width
-            avatarImageView.layer.cornerRadius = width / 2
+        avatarImageView.layer.cornerRadius = width / 2
     }
     
     private func setupView() {
@@ -158,7 +184,7 @@ final class ProfileViewController: UIViewController {
     }
     
     private func updateUI() {
-        guard let profile = profileService.profileInfo else { return }
+        guard let profile = ProfileService.shared.profileInfo else { return }
         
         userNameLabel.text = profile.name
         userEmailLabel.text = profile.loginName

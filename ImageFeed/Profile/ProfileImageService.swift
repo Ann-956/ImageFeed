@@ -20,6 +20,10 @@ final class ProfileImageService {
     private let urlSession = URLSession.shared
     private init() {}
     
+    func clearAvatarURL() {
+        avatarURL = nil
+    }
+    
     private func makeProfileImageRequest(username: String) -> URLRequest? {
         guard
             let url = URL(string:"https://api.unsplash.com/users/\(username)"),
@@ -39,12 +43,14 @@ final class ProfileImageService {
         
         task?.cancel()
         
-        guard let request = makeProfileImageRequest(username: username) else {
+        guard
+            let request = makeProfileImageRequest(username: username)
+        else {
             completion(.failure(AuthServiceError.invalidRequest))
             return
         }
         
-        task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
+        task = urlSession.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
             guard let self = self else { return }
             
             switch result {

@@ -13,6 +13,9 @@ extension URLSession {
     ) -> URLSessionTask {
         
         let decoder = JSONDecoder()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        decoder.dateDecodingStrategy = .formatted(formatter)
         
         let fulfillCompletionOnTheMainThread: (Result<T, Error>) -> Void = { result in
             DispatchQueue.main.async {

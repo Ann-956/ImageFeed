@@ -73,6 +73,9 @@
                                                     <state key="normal" image="LikeActive">
                                                         <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="likeButtonClicked" destination="y3p-Nx-iR5" eventType="touchUpInside" id="w2X-LI-AXE"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" name="YP Black"/>
