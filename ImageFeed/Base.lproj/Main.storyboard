@@ -73,6 +73,9 @@
                                                     <state key="normal" image="LikeActive">
                                                         <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="likeButtonClicked" destination="y3p-Nx-iR5" eventType="touchUpInside" id="w2X-LI-AXE"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" name="YP Black"/>
@@ -202,7 +205,7 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i1A-Dz-ZCa" userLabel="Entry">
-                                <rect key="frame" x="16" y="646" width="361" height="48"/>
+                                <rect key="frame" x="16" y="680" width="361" height="48"/>
                                 <color key="backgroundColor" name="YP White"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="KMT-hH-9X7"/>
@@ -229,7 +232,7 @@
                             <constraint firstItem="i1A-Dz-ZCa" firstAttribute="leading" secondItem="fVX-Ar-gtC" secondAttribute="leading" constant="16" id="68n-CY-oPR"/>
                             <constraint firstItem="fVX-Ar-gtC" firstAttribute="trailing" secondItem="i1A-Dz-ZCa" secondAttribute="trailing" constant="16" id="Oco-N6-Rm4"/>
                             <constraint firstItem="2pI-Fi-ZcI" firstAttribute="centerY" secondItem="fVX-Ar-gtC" secondAttribute="centerY" id="PdE-DS-EmF"/>
-                            <constraint firstItem="fVX-Ar-gtC" firstAttribute="bottom" secondItem="i1A-Dz-ZCa" secondAttribute="bottom" constant="124" id="arH-Ts-hFQ"/>
+                            <constraint firstItem="fVX-Ar-gtC" firstAttribute="bottom" secondItem="i1A-Dz-ZCa" secondAttribute="bottom" constant="90" id="arH-Ts-hFQ"/>
                             <constraint firstItem="2pI-Fi-ZcI" firstAttribute="centerX" secondItem="fVX-Ar-gtC" secondAttribute="centerX" id="t1N-sR-fMl"/>
                         </constraints>
                     </view>

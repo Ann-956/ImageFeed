@@ -7,6 +7,10 @@ final class ProfileService {
     private var task: URLSessionTask?
     private init() {}
     private let urlSession = URLSession.shared
+    
+    func clearProfileInfo() {
+        profileInfo = nil
+    }
 
     
     private func makeProfileRequest() -> URLRequest? {

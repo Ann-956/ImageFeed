@@ -13,6 +13,7 @@ extension URLSession {
     ) -> URLSessionTask {
         
         let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
         
         let fulfillCompletionOnTheMainThread: (Result<T, Error>) -> Void = { result in
             DispatchQueue.main.async {

@@ -1,4 +1,5 @@
 import UIKit
+import ProgressHUD
 
 final class SplashViewController: UIViewController {
     
@@ -22,6 +23,7 @@ final class SplashViewController: UIViewController {
         view.backgroundColor = UIColor.ypBlack
         view.addSubview(logoView)
         setupConstraints()
+    
 
         if let token = storage.token {
             loadProfile(token)
@@ -53,7 +55,9 @@ final class SplashViewController: UIViewController {
     }
     
     private func loadProfile(_ token: String) {
+        UIBlockingProgressHUD.show()
         profileService.fetchProfile(token) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
             DispatchQueue.main.async {
                 guard let self = self else { return }
                 
