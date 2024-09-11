@@ -130,18 +130,21 @@ final class ProfileViewController: UIViewController {
             preferredStyle: .alert
         )
         
-        let yesAction = UIAlertAction(title: "Да", style: .default) { _ in
-            ProfileLogoutService.shared.logout()
-        }
-        
         let noAction = UIAlertAction(title: "Нет", style: .cancel, handler: nil)
         
-       
-        alertController.addAction(yesAction)
+        let yesAction = UIAlertAction(title: "Да", style: .default) { [weak self] _ in
+            self?.handleLogout()
+        }
         
+        alertController.addAction(yesAction)
         alertController.addAction(noAction)
         
+        
         present(alertController, animated: true, completion: nil)
+    }
+    
+    private func handleLogout() {
+        ProfileLogoutService.shared.logout()
     }
     
     private func setupAvatarImageView() {

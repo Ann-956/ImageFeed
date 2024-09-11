@@ -5,7 +5,6 @@ final class ImagesListService {
     private let tokenStorage = OAuth2TokenStorage()
     var photos: [Photos] = []
     private var task: URLSessionTask?
-    static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     private let urlSession = URLSession.shared
     private var lastLoadedPage: Int?
     private init() {}
@@ -50,7 +49,7 @@ final class ImagesListService {
                 self.photos.append(contentsOf: newPhotos)
                 self.lastLoadedPage = nextPage
                 NotificationCenter.default.post(
-                    name: ImagesListService.didChangeNotification,
+                    name: .didChangeNotification,
                     object: self,
                     userInfo: ["Array": newPhotos]
                 )
@@ -92,8 +91,6 @@ final class ImagesListService {
                     var updatedPhoto = self.photos[index]
                     updatedPhoto.isLiked = photoResult.likedByUser
                     self.photos[index] = updatedPhoto
-                    print("лайк изменен")
-                    print(updatedPhoto.isLiked)
                 }
                 completion(.success(()))
             case .failure(let error):
@@ -104,4 +101,8 @@ final class ImagesListService {
         task?.resume()
     }
     
+}
+
+extension Notification.Name {
+    static let didChangeNotification = Notification.Name("ImagesListServiceDidChange")
 }

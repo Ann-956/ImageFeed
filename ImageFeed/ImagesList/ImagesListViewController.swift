@@ -12,7 +12,7 @@ final class ImagesListViewController: UIViewController {
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateStyle = .long
+        formatter.dateStyle = .medium
         formatter.timeStyle = .none
         return formatter
     }()
@@ -24,7 +24,7 @@ final class ImagesListViewController: UIViewController {
         
         photosImagesListServiceObserver = NotificationCenter.default
             .addObserver(
-                forName: ImagesListService.didChangeNotification,
+                forName: .didChangeNotification,
                 object: nil,
                 queue: .main
             ) { [weak self] _ in
@@ -33,7 +33,6 @@ final class ImagesListViewController: UIViewController {
             }
         
         imagesListService.fetchPhotosNextPage()
-        print("первая загрузка")
     }
     
     private func updateTableViewAnimated() {
@@ -48,7 +47,6 @@ final class ImagesListViewController: UIViewController {
                 tableView.insertRows(at: indexPaths, with: .automatic)
             } completion: { _ in }
         }
-        print("анимация сработала")
     }
     
     
@@ -63,7 +61,6 @@ final class ImagesListViewController: UIViewController {
             }
             
             let image = photos[indexPath.row].largeImageURL
-            print("передается картинка \(image)")
             viewController.image = URL(string: image)
         } else {
             super.prepare(for: segue, sender: sender)
@@ -92,7 +89,6 @@ extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == photos.count - 1 {
             imagesListService.fetchPhotosNextPage()
-            print("Загружаем следующую страницу")
         }
     }
     
@@ -146,12 +142,31 @@ extension ImagesListViewController: ImagesListCellDelegate {
                     self.photos = self.imagesListService.photos
                     self.configCell(for: cell, with: indexPath)
                     
-                    UIBlockingProgressHUD.dismiss()
+                    self.handleCompletion(success: true, error: nil)
                 case .failure(let error):
-                    UIBlockingProgressHUD.dismiss()
-                    print("ошибка изменения лайка\(error)")
+                    self.handleCompletion(success: false, error: error)
+                    
                 }
             }
         }
+    }
+    
+    private func handleCompletion(success: Bool, error: Error?) {
+        UIBlockingProgressHUD.dismiss()
+        
+        if let error = error {
+            showErrorAlert(message: error.localizedDescription)
+        }
+    }
+    
+    private func showErrorAlert(message: String) {
+        let alert = UIAlertController(
+            title: "Ошибка",
+            message: message,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        
+        present(alert, animated: true, completion: nil)
     }
 }

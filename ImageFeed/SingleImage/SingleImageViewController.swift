@@ -63,9 +63,10 @@ final class SingleImageViewController: UIViewController {
         let offsetX = max((scrollView.bounds.width - scrollView.contentSize.width) * 0.5, 0.0)
         let offsetY = max((scrollView.bounds.height - scrollView.contentSize.height) * 0.5, 0.0)
         
-        UIView.animate(withDuration: 0.3) {
-            self.scrollView.contentInset = UIEdgeInsets(top: offsetY, left: offsetX, bottom: 0, right: 0)
-        }
+        UIView.animate(withDuration: 0.3) { [weak self] in
+               guard let self = self else { return }
+               self.scrollView.contentInset = UIEdgeInsets(top: offsetY, left: offsetX, bottom: 0, right: 0)
+           }
     }
     
     private func configureCache() {
@@ -76,11 +77,16 @@ final class SingleImageViewController: UIViewController {
     
     
     private func showError() {
-        let alertController = UIAlertController(title: "Ошибка", message: "Что-то пошло не так. Попробовать ещё раз?", preferredStyle: .alert)
+        let alertController = UIAlertController(
+            title: "Ошибка",
+            message: "Что-то пошло не так. Попробовать ещё раз?",
+            preferredStyle: .alert
+        )
+        
         let cancelAction = UIAlertAction(title: "Не надо", style: .cancel, handler: nil)
         
-        let retryAction = UIAlertAction(title: "Повторить", style: .default) { _ in
-            self.checkAndSetImage()
+        let retryAction = UIAlertAction(title: "Повторить", style: .default) { [weak self] _ in
+            self?.checkAndSetImage()
         }
         
         alertController.addAction(cancelAction)
@@ -107,10 +113,8 @@ final class SingleImageViewController: UIViewController {
             guard let self = self else { return }
             switch result {
             case .success(let value):
-                print("картинка загрузилась: \(value.image)")
                 self.rescaleAndCenterImageInScrollView(image: value.image)
-            case .failure(let error):
-                print("Ошибка при загрузке изображения: \(error.localizedDescription)")
+            case .failure:
                 self.showError()
             }
         }
