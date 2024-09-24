@@ -11,7 +11,8 @@ struct ProfileImage: Codable {
     let large: URL // в задаче написано использовать картинку small, но размеры small не подходят под экран Retina дисплкй и изображение размытое получается
 }
 
-final class ProfileImageService {
+final class ProfileImageService{
+    
     static let shared = ProfileImageService()
     private let tokenStorage = OAuth2TokenStorage()
     private (set) var avatarURL: String?

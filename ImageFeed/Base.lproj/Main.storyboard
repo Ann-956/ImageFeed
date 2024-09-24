@@ -65,6 +65,7 @@
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ouh-Wc-ceH" userLabel="Like Button">
                                                     <rect key="frame" x="333" y="4" width="44" height="44"/>
+                                                    <accessibility key="accessibilityConfiguration" identifier="LikeButton"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="44" id="81i-4s-jOD"/>
                                                         <constraint firstAttribute="width" constant="44" id="cwX-GC-vQu"/>
@@ -154,8 +155,9 @@
                                     <action selector="didTabShareButton:" destination="E86-mJ-hEI" eventType="touchUpInside" id="ASi-9g-ZKh"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lx7-o4-10z" userLabel="Back">
+                            <button opaque="NO" contentMode="scaleAspectFit" restorationIdentifier="NavButtonBack" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lx7-o4-10z" userLabel="Back">
                                 <rect key="frame" x="9" y="11" width="44" height="44"/>
+                                <accessibility key="accessibilityConfiguration" identifier="NavBackButton&quot;"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="44" id="YFM-5O-Qfn"/>
                                     <constraint firstAttribute="height" constant="44" id="xFB-RF-9ol"/>
@@ -181,6 +183,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="navBackButton" destination="Lx7-o4-10z" id="Cuq-C1-cwW"/>
                         <outlet property="scrollView" destination="n9G-18-utO" id="r8h-O8-dCU"/>
                         <outlet property="singleImage" destination="LLi-pH-Aft" id="Lqv-PX-qgh"/>
                     </connections>
@@ -237,6 +240,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="626-7X-kcZ"/>
+                    <connections>
+                        <outlet property="loginButton" destination="i1A-Dz-ZCa" id="R7P-Wz-Y8n"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="erM-Oj-jo9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -275,7 +281,7 @@
                             <constraint firstItem="xgI-A7-gHN" firstAttribute="top" secondItem="msI-ot-Gqm" secondAttribute="top" id="zS6-wX-gxv"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="HhI-dk-QkF"/>
+                    <navigationItem key="navigationItem" customizationIdentifier="" id="HhI-dk-QkF"/>
                     <connections>
                         <outlet property="progressView" destination="xgI-A7-gHN" id="DoI-0o-WTt"/>
                         <outlet property="webView" destination="To0-88-FIR" id="Uuh-an-OXW"/>

@@ -21,6 +21,7 @@ final class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         view.backgroundColor = UIColor.ypBlack
+        view.accessibilityIdentifier = "UnsplashWebView"
         view.addSubview(logoView)
         setupConstraints()
     
