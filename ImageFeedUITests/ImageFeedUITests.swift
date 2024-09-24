@@ -6,7 +6,7 @@ final class ImageFeedUITests: XCTestCase {
     
     override func setUpWithError() throws {
         continueAfterFailure = false
-        
+        app.launchEnvironment["isUITesting"] = "YES"
         app.launch()
     }
     func testAuth() throws {
@@ -22,14 +22,14 @@ final class ImageFeedUITests: XCTestCase {
         XCTAssertTrue(loginTextField.waitForExistence(timeout: 10))
         
         loginTextField.tap()
-        loginTextField.typeText("")
+        loginTextField.typeText("ann-brown956@yandex.ru")
         app.buttons["Done"].tap()
         webView.swipeUp()
         
         let passwordTextField = webView.descendants(matching: .secureTextField).element
         XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5))
         passwordTextField.tap()
-        passwordTextField.typeText("")
+        passwordTextField.typeText("buzmyx-vifrug-xemBo4")
         sleep(1)
         app.buttons["Done"].tap()
         
@@ -52,7 +52,7 @@ final class ImageFeedUITests: XCTestCase {
         
         cell.swipeUp()
         
-        let cellToLike = tablesQuery.children(matching: .cell).element(boundBy: 1)
+        let cellToLike = tablesQuery.children(matching: .cell).element(boundBy: 2)
         let likeButton = cellToLike.buttons["LikeButton"]
         
         XCTAssertTrue(likeButton.waitForExistence(timeout: 10))
@@ -89,4 +89,4 @@ final class ImageFeedUITests: XCTestCase {
     }
 }
 
-// не понимаю в чем проблема тесты проходят через раз
+

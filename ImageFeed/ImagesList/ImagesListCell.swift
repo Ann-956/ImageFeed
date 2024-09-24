@@ -14,16 +14,10 @@ final class ImagesListCell: UITableViewCell {
     
     weak var delegate: ImagesListCellDelegate?
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        likeButton.accessibilityIdentifier = "LikeButton"  
-    }
-    
     override func prepareForReuse() {
         super.prepareForReuse()
         cellImage.kf.cancelDownloadTask()
     }
-    
     
     @IBAction private func likeButtonClicked() {
         delegate?.imageListCellDidTapLike(self)

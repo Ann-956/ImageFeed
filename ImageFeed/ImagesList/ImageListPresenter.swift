@@ -55,7 +55,7 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol {
     }
     
     func willDisplayCell(at indexPath: IndexPath) {
-        if indexPath.row == photos.count - 1 {
+        if indexPath.row == photos.count - 1 && ProcessInfo().environment["isUITesting"] == "NO" {
             ImagesListService.shared.fetchPhotosNextPage()
         }
     }
