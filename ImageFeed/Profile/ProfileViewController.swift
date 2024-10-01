@@ -1,9 +1,15 @@
 import UIKit
 import Kingfisher
 
-final class ProfileViewController: UIViewController {
+protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfileViewPresenterProtocol? { get set }
+    func updateUI(name: String, loginName: String, bio: String)
+    func updateAvatar()
+}
+
+final class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
     
-    private var profileImageServiceObserver: NSObjectProtocol?
+    var presenter: ProfileViewPresenterProtocol?
     
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -69,19 +75,11 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupConstraints()
-        updateUI()
-        profileImageServiceObserver = NotificationCenter.default
-            .addObserver(
-                forName: ProfileImageService.didChangeNotification,
-                object: nil,
-                queue: .main
-            ) { [weak self] _ in
-                guard let self = self else { return }
-                self.updateAvatar()
-            }
         
-        updateAvatar()
+        presenter = ProfileViewPresenter(view: self)
+        presenter?.viewDidLoad()
         
+        exitButton.accessibilityIdentifier = "ExitButton"
         exitButton.addTarget(self, action: #selector(didTapExitButton), for: .touchUpInside)
     }
     
@@ -90,9 +88,9 @@ final class ProfileViewController: UIViewController {
         setupAvatarImageView()
     }
     
-    private func updateAvatar() {
+    func updateAvatar() {
         guard
-            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let profileImageURL = presenter?.getAvatarURL(),
             let url = URL(string: profileImageURL)
         else {
             print("Invalid avatar URL")
@@ -107,15 +105,7 @@ final class ProfileViewController: UIViewController {
         avatarImageView.kf.setImage(
             with: url,
             placeholder: UIImage(named: "Placeholder"),
-            options: options,
-            completionHandler: { result in
-                switch result {
-                case .success(let value):
-                    print("Image successfully loaded and cached: \(value.source.url?.absoluteString ?? "")")
-                case .failure(let error):
-                    print("Error loading image: \(error.localizedDescription)")
-                }
-            }
+            options: options
         )
     }
     
@@ -133,19 +123,16 @@ final class ProfileViewController: UIViewController {
         let noAction = UIAlertAction(title: "Нет", style: .cancel, handler: nil)
         
         let yesAction = UIAlertAction(title: "Да", style: .default) { [weak self] _ in
-            self?.handleLogout()
+            self?.presenter?.handleLogout()
         }
         
         alertController.addAction(yesAction)
         alertController.addAction(noAction)
         
-        
         present(alertController, animated: true, completion: nil)
     }
     
-    private func handleLogout() {
-        ProfileLogoutService.shared.logout()
-    }
+    
     
     private func setupAvatarImageView() {
         let width = avatarImageView.bounds.size.width
@@ -186,11 +173,9 @@ final class ProfileViewController: UIViewController {
         ])
     }
     
-    private func updateUI() {
-        guard let profile = ProfileService.shared.profileInfo else { return }
-        
-        userNameLabel.text = profile.name
-        userEmailLabel.text = profile.loginName
-        userDescriptionLabel.text = profile.bio
+    func updateUI(name: String, loginName: String, bio: String) {
+        userNameLabel.text = name
+        userEmailLabel.text = loginName
+        userDescriptionLabel.text = bio
     }
 }

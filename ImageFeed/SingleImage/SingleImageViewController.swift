@@ -9,9 +9,11 @@ final class SingleImageViewController: UIViewController {
             checkAndSetImage()
         }
     }
+    @IBOutlet weak var navBackButton: UIButton!
     
     @IBOutlet weak var singleImage: UIImageView!
     @IBOutlet weak var scrollView: UIScrollView!
+    
     
     @IBAction private func didTapBackButton() {
         dismiss(animated: true, completion: nil)
@@ -26,7 +28,7 @@ final class SingleImageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navBackButton.accessibilityIdentifier = "NavBackButton"
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
         scrollView.delegate = self

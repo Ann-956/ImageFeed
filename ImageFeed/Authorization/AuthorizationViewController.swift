@@ -6,10 +6,11 @@ protocol AuthorizationViewControllerDelegate: AnyObject {
 
 final class AuthorizationViewController: UIViewController {
     
-    weak var delegate: AuthorizationViewControllerDelegate?
+    @IBOutlet private weak var loginButton: UIButton!
+    private weak var delegate: AuthorizationViewControllerDelegate?
     private let ShowWebViewSegueIdentifier = "ShowWebView"
     private let oauth2Service = OAuth2Service.shared
-
+    
     
     private func configureBackButton() {
         navigationController?.navigationBar.backIndicatorImage = UIImage(named: "NavBackButton")
@@ -20,14 +21,22 @@ final class AuthorizationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loginButton.accessibilityIdentifier = "Authenticate"
         configureBackButton()
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == ShowWebViewSegueIdentifier {
             guard
                 let webViewViewController = segue.destination as? WebViewViewController
-            else { fatalError("Failed to prepare for \(ShowWebViewSegueIdentifier)") }
+            else {
+                fatalError("Failed to prepare for \(ShowWebViewSegueIdentifier)")
+            }
+            let authHelper = AuthHelper()
+            let webViewPresenter = WebViewPresenter(authHelper: authHelper)
+            webViewViewController.presenter = webViewPresenter
+            webViewPresenter.view = webViewViewController
             webViewViewController.delegate = self
         } else {
             super.prepare(for: segue, sender: sender)
@@ -36,7 +45,7 @@ final class AuthorizationViewController: UIViewController {
 }
 
 extension AuthorizationViewController: WebViewViewControllerDelegate {
-    func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
+   func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         UIBlockingProgressHUD.show()
         
         oauth2Service.fetchOAuthToken(with: code) { [weak self] result in
@@ -57,7 +66,7 @@ extension AuthorizationViewController: WebViewViewControllerDelegate {
         }
     }
     
-    func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
+   func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         dismiss(animated: true)
     }
     
