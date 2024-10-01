@@ -26,7 +26,7 @@ final class OAuth2Service {
                 relativeTo: baseURL
             )
         else {
-           assertionFailure("Failed to create URL")
+            assertionFailure("Failed to create URL")
             return nil }
         
         var request = URLRequest(url: url)
@@ -67,16 +67,16 @@ final class OAuth2Service {
                 
                 
                 switch result {
-                    case .success(let tokenResponse):
-                        self.tokenStorage.token = tokenResponse.accessToken
-                        completion(.success(tokenResponse.accessToken))
-                    case .failure(let error):
-                        print("[OAuth2Service]: \(error.localizedDescription)")
-                        completion(.failure(error))
+                case .success(let tokenResponse):
+                    self.tokenStorage.token = tokenResponse.accessToken
+                    completion(.success(tokenResponse.accessToken))
+                case .failure(let error):
+                    print("[OAuth2Service]: \(error.localizedDescription)")
+                    completion(.failure(error))
                 }
             }
         }
-
+        
         self.task = task
         task.resume()
     }

@@ -8,6 +8,7 @@ enum Constaints {
     
     static let defaultBaseURL = URL(string: "https://api.unsplash.com")!
     static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
+    static let codePath = "/oauth/authorize/native"
 }
 
 struct AuthConfiguration {
@@ -17,14 +18,16 @@ struct AuthConfiguration {
     let accessScope: String
     let defaultBaseURL: URL
     let authURLString: String
+    let codePath: String
     
-    init(accessKey: String, secretKey: String, redirectURI: String, accessScope: String, authURLString: String, defaultBaseURL: URL) {
+    init(accessKey: String, secretKey: String, redirectURI: String, accessScope: String, authURLString: String, defaultBaseURL: URL, codePath: String) {
         self.accessKey = accessKey
         self.secretKey = secretKey
         self.redirectURI = redirectURI
         self.accessScope = accessScope
         self.defaultBaseURL = defaultBaseURL
         self.authURLString = authURLString
+        self.codePath = codePath
     }
     
     static var standard: AuthConfiguration {
@@ -33,6 +36,7 @@ struct AuthConfiguration {
                                  redirectURI: Constaints.redirectURI,
                                  accessScope: Constaints.accessScope,
                                  authURLString: Constaints.unsplashAuthorizeURLString,
-                                 defaultBaseURL: Constaints.defaultBaseURL)
+                                 defaultBaseURL: Constaints.defaultBaseURL,
+                                 codePath: Constaints.codePath)
     }
 }

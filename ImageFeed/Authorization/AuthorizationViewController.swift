@@ -6,8 +6,8 @@ protocol AuthorizationViewControllerDelegate: AnyObject {
 
 final class AuthorizationViewController: UIViewController {
     
-    @IBOutlet weak var loginButton: UIButton!
-    weak var delegate: AuthorizationViewControllerDelegate?
+    @IBOutlet private weak var loginButton: UIButton!
+    private weak var delegate: AuthorizationViewControllerDelegate?
     private let ShowWebViewSegueIdentifier = "ShowWebView"
     private let oauth2Service = OAuth2Service.shared
     
@@ -45,7 +45,7 @@ final class AuthorizationViewController: UIViewController {
 }
 
 extension AuthorizationViewController: WebViewViewControllerDelegate {
-    func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
+   func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         UIBlockingProgressHUD.show()
         
         oauth2Service.fetchOAuthToken(with: code) { [weak self] result in
@@ -66,7 +66,7 @@ extension AuthorizationViewController: WebViewViewControllerDelegate {
         }
     }
     
-    func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
+   func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         dismiss(animated: true)
     }
     
